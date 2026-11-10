@@ -4,8 +4,13 @@ Hito 4 - Consumo de APIs con React | Desafío Latam - Fullstack JS
 
 ## Accesos al proyecto
 
-- Demo en vivo Hito 3 (Vercel): **[pizzeria-mama-mia-hito3.vercel.app](https://pizzeria-mama-mia-hito3.vercel.app/)**
-- Repositorio: **[cesarscl/Pizzeria-Mama-Mia-Hito3](https://github.com/cesarscl/Pizzeria-Mama-Mia-Hito3)**
+- Demo en vivo Hito 4 (Vercel): **[pizzeria-mama-mia-hito4.vercel.app](https://pizzeria-mama-mia-hito4.vercel.app/)**
+- Backend / API (Render): **[pizzeria-backend-laiv.onrender.com](https://pizzeria-backend-laiv.onrender.com/api/pizzas)**
+  - `GET /api/pizzas` → [listado de pizzas](https://pizzeria-backend-laiv.onrender.com/api/pizzas)
+  - `GET /api/pizzas/p001` → [detalle de una pizza](https://pizzeria-backend-laiv.onrender.com/api/pizzas/p001)
+- Repositorio: **[cesarscl/Pizzeria-Mama-Mia-Hito4](https://github.com/cesarscl/Pizzeria-Mama-Mia-Hito4)**
+
+> El backend está en el plan gratuito de Render podria estar inactivo al mometo de la evaluacion
 
 ## Descripción
 
@@ -55,7 +60,7 @@ App.jsx
 
 ## Cómo correr el proyecto en local
 
-Por defecto el frontend consulta el backend publicado en Render, así que basta con los pasos del frontend (más abajo). En el plan gratuito de Render, la primera carga puede tardar cerca de un minuto si el servicio estaba inactivo.
+Por defecto el frontend consulta el backend publicado en Render, así que basta con los pasos del frontend (más abajo).
 
 Para usar en cambio el backend local del material de apoyo ("Material de apoyo - Backend Pizzas"), levántalo en otra terminal:
 
@@ -76,8 +81,8 @@ VITE_API_URL=http://localhost:5000
 Luego, en el frontend:
 
 ```bash
-git clone https://github.com/cesarscl/Pizzeria-Mama-Mia-Hito3.git
-cd Pizzeria-Mama-Mia-Hito3
+git clone https://github.com/cesarscl/Pizzeria-Mama-Mia-Hito4.git
+cd Pizzeria-Mama-Mia-Hito4
 npm install
 npm run dev
 ```
