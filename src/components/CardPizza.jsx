@@ -1,6 +1,6 @@
-import { formatPrice } from "../utils/helpers"
+import { formatPrice, handleImgError } from "../utils/helpers"
 
-const CardPizza = ({ name, price, ingredients, img }) => {
+const CardPizza = ({ id, name, price, ingredients, img, onViewMore }) => {
   return (
     <div className="col-12 col-md-6 col-lg-4 mb-4">
       <div className="card h-100 shadow-sm">
@@ -9,6 +9,7 @@ const CardPizza = ({ name, price, ingredients, img }) => {
           className="card-img-top"
           alt={`Pizza ${name}`}
           style={{ height: "200px", objectFit: "cover" }}
+          onError={handleImgError(id)}
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title text-capitalize">Pizza {name}</h5>
@@ -25,7 +26,7 @@ const CardPizza = ({ name, price, ingredients, img }) => {
           </p>
 
           <div className="d-flex justify-content-between mt-auto">
-            <button className="btn btn-outline-secondary btn-sm">
+            <button className="btn btn-outline-secondary btn-sm" onClick={onViewMore}>
               Ver Más 👀
             </button>
             <button className="btn btn-dark btn-sm">Añadir 🛒</button>

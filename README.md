@@ -1,6 +1,6 @@
 # Pizzería Mamma Mia!
 
-Hito 3 - Renderización dinámica de componentes | Desafío Latam - Fullstack JS
+Hito 4 - Consumo de APIs con React | Desafío Latam - Fullstack JS
 
 ## Accesos al proyecto
 
@@ -15,6 +15,8 @@ En el **Hito 2** se agregan los formularios de **registro** y **login**, manejad
 
 En el **Hito 3** el menú pasa a renderizarse dinámicamente con `.map()` desde el archivo `pizzas.js`, y se agrega un **carrito de compras** simulado que permite aumentar y disminuir cantidades y calcula el total de la compra.
 
+En el **Hito 4** las pizzas se obtienen desde una **API** (backend del material de apoyo) usando `useEffect` y `fetch`. `Home` carga el listado completo y el nuevo componente `Pizza` muestra el detalle de una pizza (por ahora fija: `p001`), al que se llega con el botón **Ver Más** de cualquier tarjeta.
+
 > El carrito se abre con el botón **🛒 Total** del Navbar. El monto de ese botón sigue siendo un valor fijo; el total real se muestra dentro del carrito.
 
 ## Componentes
@@ -25,6 +27,7 @@ App.jsx
 ├── Home.jsx
 │   ├── Header.jsx  → título y descripción de la pizzería
 │   └── CardPizza.jsx (x6) → nombre, precio, ingredientes e imagen (vía props)
+├── Pizza.jsx       → detalle de una pizza obtenida desde la API (useEffect)
 ├── Register.jsx    → formulario de registro con validaciones (useState)
 │   └── Message.jsx → alerta de éxito/error, visible solo cuando hay mensaje
 ├── Login.jsx       → formulario de login con validaciones (useState)
@@ -33,15 +36,16 @@ App.jsx
 └── Footer.jsx      → derechos reservados
 ```
 
-- **pizzas.js**: datos del proyecto. Exporta `pizzas` (menú de 6 pizzas) y `pizzaCart` (simulación del carrito).
+- **pizzas.js**: datos locales. Exporta `pizzas` (desde el Hito 4 solo se usa para las imágenes de respaldo) y `pizzaCart` (simulación del carrito).
 - **Navbar.jsx**: botones Home y Total (siempre visibles) + Login/Register o Profile/Logout según la variable booleana `token`. El total se formatea con separador de miles usando `toLocaleString`. Recibe la prop `onNavigate` para cambiar la vista.
-- **Home.jsx**: recorre `pizzas` con `.map()` y renderiza un `CardPizza` por cada pizza, pasándole sus props.
+- **Home.jsx**: con `useEffect` y `fetch` consume `GET /api/pizzas`, guarda el resultado en el estado `pizzas` y renderiza un `CardPizza` por cada una. Muestra un mensaje mientras carga y otro si el backend no responde.
+- **Pizza.jsx**: con `useEffect` y `fetch` consume `GET /api/pizzas/p001` y muestra nombre, precio, ingredientes, imagen y descripción. El botón Añadir aún no tiene funcionalidad.
 - **CardPizza.jsx**: recibe `name`, `price`, `ingredients` e `img` por props, y renderiza un `<li>` por cada ingrediente.
 - **Cart.jsx**: guarda `pizzaCart` en el estado `cart` y muestra imagen, nombre, precio y cantidad de cada pizza. Los botones `+` y `-` cambian la cantidad y, al llegar a 0, la pizza se elimina del carrito. El total se calcula con `reduce`. El botón Pagar aún no tiene funcionalidad.
 - **Register.jsx**: estados `email`, `password` y `confirmPassword`; valida campos obligatorios, largo mínimo de 6 caracteres y que ambas contraseñas coincidan.
 - **Login.jsx**: estados `email` y `password`; valida campos obligatorios y largo mínimo de 6 caracteres.
 - **Message.jsx**: alerta de Bootstrap (verde o roja) que solo se muestra cuando hay un mensaje.
-- **utils/helpers.js**: función `formatPrice` reutilizada en `Navbar`, `CardPizza` y `Cart`.
+- **utils/helpers.js**: `formatPrice` (reutilizada en `Navbar`, `CardPizza`, `Cart` y `Pizza`), `API_URL` (URL del backend) y `handleImgError` (imagen de respaldo).
 
 ## Tecnologías
 
@@ -50,6 +54,18 @@ App.jsx
 - [Bootstrap 5](https://getbootstrap.com/)
 
 ## Cómo correr el proyecto en local
+
+Primero levanta el backend del material de apoyo ("Material de apoyo - Backend Pizzas") en otra terminal:
+
+```bash
+cd simple-api-backend-nodejs-express-fs-json-jwt-main
+npm install
+npm start   # queda en http://localhost:5000
+```
+
+> En macOS, si aparece `EADDRINUSE` en el puerto 5000, desactiva **Receptor AirPlay** en Ajustes del Sistema → General → AirDrop y Handoff.
+
+Luego, en el frontend:
 
 ```bash
 git clone https://github.com/cesarscl/Pizzeria-Mama-Mia-Hito3.git
@@ -92,9 +108,19 @@ Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 - [x] Botones para aumentar y disminuir la cantidad; con cantidad 0 la pizza se elimina del carrito
 - [x] Cálculo del total de la compra y botón Pagar (sin funcionalidad por ahora)
 
+## Requerimientos del Hito 4
+
+- [x] `Home.jsx` consume la API de pizzas y renderiza las tarjetas
+- [x] `Home.jsx` utiliza el hook `useEffect` para consumir la API
+- [x] `Pizza.jsx` consume la API (`/api/pizzas/p001`) y renderiza la información de la pizza
+- [x] `Pizza.jsx` utiliza el hook `useEffect` para consumir la API
+- [x] `Pizza.jsx` muestra nombre, precio, ingredientes, imagen y descripción
+
 ### Notas de implementación
 
-- `Home`, `Register`, `Login` y `Cart` se mantienen activos y se navega entre ellos desde el `Navbar` (estado `view`), en lugar de dejarlos comentados en `App.jsx` como en el ejemplo del hito.
+- La URL del backend se define en `API_URL`: por defecto `http://localhost:5000`, o el valor de la variable de entorno `VITE_API_URL` (por ejemplo, en Vercel).
+- Las imágenes que entrega el backend (Firebase) responden error 402; si una imagen falla, `onError` la reemplaza por la imagen de respaldo de `pizzas.js` según el `id`.
+- `Home`, `Register`, `Login`, `Cart` y `Pizza` se mantienen activos y se navega entre ellos desde el `Navbar` (estado `view`), en lugar de dejarlos comentados en `App.jsx` como en el ejemplo del hito.
 - Las URLs de imágenes del material de apoyo responden error 402, por lo que en `pizzas.js` se reemplazaron por fotos de [Unsplash](https://unsplash.com/).
 
 ## Autor
