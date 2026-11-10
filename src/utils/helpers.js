@@ -1,7 +1,8 @@
 import { pizzas } from "../pizzas"
 
-// URL base del backend. En local usa el puerto 5000; en Vercel se define VITE_API_URL.
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
+// URL base del backend, publicado en Render. Para usar el backend local,
+// define VITE_API_URL=http://localhost:5000 en un archivo .env.local
+export const API_URL = import.meta.env.VITE_API_URL || "https://pizzeria-backend-laiv.onrender.com"
 
 // Formatea un número como precio en pesos chilenos, con separador de miles.
 // ej: formatPrice(25000) -> "25.000"

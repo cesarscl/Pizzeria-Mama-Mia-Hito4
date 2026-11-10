@@ -55,7 +55,9 @@ App.jsx
 
 ## Cómo correr el proyecto en local
 
-Primero levanta el backend del material de apoyo ("Material de apoyo - Backend Pizzas") en otra terminal:
+Por defecto el frontend consulta el backend publicado en Render, así que basta con los pasos del frontend (más abajo). En el plan gratuito de Render, la primera carga puede tardar cerca de un minuto si el servicio estaba inactivo.
+
+Para usar en cambio el backend local del material de apoyo ("Material de apoyo - Backend Pizzas"), levántalo en otra terminal:
 
 ```bash
 cd simple-api-backend-nodejs-express-fs-json-jwt-main
@@ -64,6 +66,12 @@ npm start   # queda en http://localhost:5000
 ```
 
 > En macOS, si aparece `EADDRINUSE` en el puerto 5000, desactiva **Receptor AirPlay** en Ajustes del Sistema → General → AirDrop y Handoff.
+
+y crea en el frontend un archivo `.env.local` con:
+
+```bash
+VITE_API_URL=http://localhost:5000
+```
 
 Luego, en el frontend:
 
@@ -118,7 +126,7 @@ Abre [http://localhost:5173](http://localhost:5173) en tu navegador.
 
 ### Notas de implementación
 
-- La URL del backend se define en `API_URL`: por defecto `http://localhost:5000`, o el valor de la variable de entorno `VITE_API_URL` (por ejemplo, en Vercel).
+- La URL del backend se define en `API_URL`: por defecto el backend publicado en Render ([pizzeria-backend-laiv.onrender.com](https://pizzeria-backend-laiv.onrender.com/api/pizzas)), o el valor de la variable de entorno `VITE_API_URL` si está definida.
 - Las imágenes que entrega el backend (Firebase) responden error 402; si una imagen falla, `onError` la reemplaza por la imagen de respaldo de `pizzas.js` según el `id`.
 - `Home`, `Register`, `Login`, `Cart` y `Pizza` se mantienen activos y se navega entre ellos desde el `Navbar` (estado `view`), en lugar de dejarlos comentados en `App.jsx` como en el ejemplo del hito.
 - Las URLs de imágenes del material de apoyo responden error 402, por lo que en `pizzas.js` se reemplazaron por fotos de [Unsplash](https://unsplash.com/).
